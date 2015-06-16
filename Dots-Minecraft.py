@@ -238,6 +238,7 @@ babbage = [[0, 26, 0, [35, 10]], [1, 26, 0, [35, 10]], [2, 26, 0, [35, 10]], [3,
 
 NUM_PINS = 28
 PLANEPAUSE = 0.3
+SIGNCOLOUR = [35, 5]
 flightScore = 0
 planePartStatus = {}
 otherPartStatus = {}
@@ -266,7 +267,7 @@ OtherPartMap = [                #["Part name", [GPIO pins assigned to that part]
     ["Green", [10, ], 1]
 
 ]
-SelectedColour = [35, 5]
+#SelectedColour = [35, 5]
 
 
 
@@ -448,7 +449,7 @@ def fakePins2(pin, fullList=False):
     return pins[pin]
 
 
-def fakePins(pin, fullList=False):
+def fakePins6(pin, fullList=False):
     pins = {
         0: False,
         1: True,
@@ -486,7 +487,7 @@ def fakePins(pin, fullList=False):
     return pins[pin]
 
 
-def fakePins5(pin, fullList=False):
+def fakePins(pin, fullList=False):
     pins = {
         0: True,
         1: True,
@@ -676,23 +677,24 @@ def test():
         createSign()
 
 def checkColours():
+    global SelectedColours
     """
     Generate a list of colours which the plane picks at random when it is being created.
     If no colour is selected on the dots board, white is chosen.
     """
     SelectedColours = []
 
-    if otherPartStatus["Red"]:
-        SelectedColours.append([35, 1])
-    if otherPartStatus["Orange"]:
-        SelectedColours.append([35, 2])
-    if otherPartStatus["Blue"]:
-        SelectedColours.append([35, 3])
-    if otherPartStatus["Green"]:
-        SelectedColours.append([35, 4])
+    if OtherPartStatus["Red"]:
+        SelectedColours.append([35, 14],)
+    if OtherPartStatus["Orange"]:
+        SelectedColours.append([35, 1],)
+    if OtherPartStatus["Blue"]:
+        SelectedColours.append([35, 11],)
+    if OtherPartStatus["Green"]:
+        SelectedColours.append([35, 5],)
 
     if len(SelectedColours) == 0:
-        SelectedColours.append([35, 0])
+        SelectedColours.append([35, 0],)
 
     return SelectedColours
 
@@ -853,7 +855,10 @@ def placeBlocks(stuff, overrideColour=None):
     for i in range(0, len(stuff)):
         if stuff[i][3][0] == 1:
             if overrideColour == None:
-                SelectedColour = SelectedColours[random.randint(0, len(SelectedColours)-1)]
+                if SelectedColours > 1:
+                    SelectedColour = SelectedColours[random.randint(0, len(SelectedColours)-1)]
+                else:
+                    SelectedColour = SelectedColours[0]
                 mc.setBlock(stuff[i][0], stuff[i][1], stuff[i][2], SelectedColour[0], SelectedColour[1])
             else:
                 mc.setBlock(stuff[i][0], stuff[i][1], stuff[i][2], overrideColour[0], overrideColour[1])
@@ -895,7 +900,7 @@ def createSign():
         placeBlocks(a, [35, 14])
     else:
         a = offset(FAILED, 8, 5, -7)
-        placeBlocks(a)
+        placeBlocks(a, SIGNCOLOUR)
         mc.postToChat("Your plane crashed :(")
         missing = ""
         for x in planePartStatus:
