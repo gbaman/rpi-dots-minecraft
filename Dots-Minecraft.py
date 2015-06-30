@@ -2,7 +2,7 @@ import sys, os, sys
 import RPi.GPIO as GPIO
 import time
 from copy import deepcopy
-import threading, thread
+import threading
 from select import select
 from mcpi import minecraft
 import random
@@ -261,7 +261,7 @@ PlanePartMap = [                #["Part name", [GPIO pins assigned to that part]
 OtherPartMap = [                #["Part name", [GPIO pins assigned to that part], Number of GPIO pins needed to trigger]
     ["Cloud", [13, ], 1],
     ["Bear", [20, ], 1],
-    ["Red", [13, ], 1],
+    ["Red", [27, ], 1],
     ["Orange", [19, ], 1],
     ["Blue", [0, ], 1],
     ["Green", [10, ], 1]
@@ -404,14 +404,14 @@ def pin_is_active(pin):
     Checks if supplied pin is covered in ink. Remember, this is the BCM pin, not the number on the dot to dot!
     Does this by enabling pull up resistor, check the pin, disable pull up resistor and return true if the state == 0.
     """
-    #return fakePins(pin)
+    #return fakePinsOn(pin)
     GPIO.setup(pin, GPIO.IN, GPIO.PUD_UP)
     state = GPIO.input(pin)
     GPIO.setup(pin, GPIO.IN, GPIO.PUD_OFF)
     return state == 0
 
 
-def fakePins2(pin, fullList=False):
+def fakePinsOff(pin, fullList=False):
     pins = {
         0: False,
         1: False,
@@ -449,7 +449,7 @@ def fakePins2(pin, fullList=False):
     return pins[pin]
 
 
-def fakePins6(pin, fullList=False):
+def fakePinsMid(pin, fullList=False):
     pins = {
         0: False,
         1: True,
@@ -487,7 +487,7 @@ def fakePins6(pin, fullList=False):
     return pins[pin]
 
 
-def fakePins(pin, fullList=False):
+def fakePinsOn(pin, fullList=False):
     pins = {
         0: True,
         1: True,
@@ -636,29 +636,41 @@ def test():
              [7, 1, 4, [1, 0], 'Left Wing'], [8, 1, 2, [1, 0], 'Left Wing'], [8, 1, 3, [1, 0], 'Left Wing'],
              [9, 1, 2, [1, 0], 'Left Wing']]
     resetWorld()
-    while True:
-        mc.postToChat("Place your Dots Board on top of the Raspberry Pi and hit enter in the commandline (not Minecraft Pi).")
-        answer = readInput("", None)
-        if answer is not None:
-            break
+    #while True:
+    #    mc.postToChat("Place your Dots Board on top of the Raspberry Pi and hit enter in the commandline (not Minecraft Pi).")
+    #    mc.postToChat(" ")
+    #    answer = readInput("", None)
+    #    if answer is not None:
+    #        break
+
+    mc.setBlock(-27, 3, 2, 20)  #Create a glass platform for the player to stand on
+    mc.player.setPos(-27, 4, 2) #Teleport the player to that platform
+    waitBlock("Place your dots board on top of the Raspberry Pi and right click the gold block when you are ready.")
 
     updatedStuff = checkParts(AIRPLANE)
     checkColours()
     demoPlane = offset(updatedStuff, -20, 0, 0)
-    mc.setBlock(-27, 3, 2, 20)  #Create a glass platform for the player to stand on
-    mc.player.setPos(-27, 4, 2) #Teleport the player to that platform
+    #mc.setBlock(-27, 3, 2, 20)  #Create a glass platform for the player to stand on
+    #mc.player.setPos(-27, 4, 2) #Teleport the player to that platform
+    #waitBlock()
     mc.camera.setNormal()
     if demoPlane == []:
+        mc.postToChat("")
         mc.postToChat("Dots board not detected! Did you correctly attach it or forget to join the dots?")
+        mc.postToChat(" ")
         test()
     else:
 
         placeBlocks(demoPlane)
-        mc.postToChat("When you are ready to test your plane, hit enter in commandline (not Minecraft")
-        input()
+        mc.postToChat(" ")
+        #mc.postToChat("When you are ready to test your plane, hit enter in commandline (not Minecraft")
+        #input()
+        waitBlock("When you are ready to test your plane, right click the golden block again.")
+
         resetWorld()
         mc.player.setPos(-20, 8, 17)
         mc.setBlock(-20, 7, 17, 20)
+
         if OtherPartStatus["Cloud"]:
             addClouds()
             l = Lightning(0, 0, 0, 0, 0)
@@ -674,8 +686,11 @@ def test():
         else:
             movePlane(updatedStuff, 20, 10)
         resetWorld()
+        mc.player.setPos(-20, 8, 17)
+        mc.setBlock(-20, 7, 17, 20)
         createSign()
-
+        mc.player.setPos(-20, 8, 17)
+        mc.setBlock(-20, 7, 17, 20)
 def checkColours():
     global SelectedColours
     """
@@ -697,6 +712,19 @@ def checkColours():
         SelectedColours.append([35, 0],)
 
     return SelectedColours
+
+def waitBlock(message):
+    done = False
+    while done == False:
+        mc.setBlock(-25, 5, 2, 41)
+        mc.postToChat(message)
+        for i in range(0, 16):
+            for hitBlock in mc.events.pollBlockHits():
+                if (mc.getBlock(hitBlock.pos.x, hitBlock.pos.y, hitBlock.pos.z)) == 41:
+                    done = True
+            if done:
+                break
+            time.sleep(0.5)
 
 
 def addClouds():
@@ -855,7 +883,7 @@ def placeBlocks(stuff, overrideColour=None):
     for i in range(0, len(stuff)):
         if stuff[i][3][0] == 1:
             if overrideColour == None:
-                if SelectedColours > 1:
+                if len(SelectedColours) > 1:
                     SelectedColour = SelectedColours[random.randint(0, len(SelectedColours)-1)]
                 else:
                     SelectedColour = SelectedColours[0]
@@ -1002,10 +1030,10 @@ def resetWorld():
 
 
 gpio_setup(PINS)
-test()
 
-resetWorld()
-
+while True:
+    test()
+    resetWorld()
 print("Program complete")
 
 GPIO.cleanup()
