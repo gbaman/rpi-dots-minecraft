@@ -1,3 +1,12 @@
+#! /usr/bin/env python3
+# Part of Dots-Minecraft project https://github.com/gbaman/dots-minecraft
+#
+# See LICENSE file for copyright and license details
+# Written by Andrew Mulholland
+# Written for Python 2.7
+
+#To use without a Raspberry Pi Dots board, uncomment the marked line inside pin_is_active()
+
 import sys, os, sys
 import RPi.GPIO as GPIO
 import time
@@ -278,7 +287,8 @@ OtherPartMap = [                #["Part name", [GPIO pins assigned to that part]
 
 class testThreading(threading.Thread):
     """
-    Experimental class for multithreading the block placing socket requests
+    Experimental class for multithreading the block placing socket requests.
+    The class is not used in the end.
     """
     def __init__(self, x, y, z, block, value):
         self.x = x
@@ -404,7 +414,7 @@ def pin_is_active(pin):
     Checks if supplied pin is covered in ink. Remember, this is the BCM pin, not the number on the dot to dot!
     Does this by enabling pull up resistor, check the pin, disable pull up resistor and return true if the state == 0.
     """
-    #return fakePinsOn(pin)
+    #return fakePinsOn(pin)   #Uncomment this line to use without a real dots board attached
     GPIO.setup(pin, GPIO.IN, GPIO.PUD_UP)
     state = GPIO.input(pin)
     GPIO.setup(pin, GPIO.IN, GPIO.PUD_OFF)
