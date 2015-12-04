@@ -1,0 +1,11 @@
+#!/usr/bin/python
+
+import rpi_dots_minecraft
+
+
+def main():
+    rpi_dots_minecraft.mcdots()
+
+
+if __name__ == '__main__':
+    main()

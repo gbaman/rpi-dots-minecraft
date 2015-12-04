@@ -1,0 +1,3 @@
+include scripts/rpi_dots_minecraft
+include README.rst
+include LICENSE

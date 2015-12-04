@@ -5,8 +5,6 @@
 # Written by Andrew Mulholland
 # Written for Python 2.7
 
-#To use without a Raspberry Pi Dots board, uncomment the marked line inside pin_is_active()
-
 import sys, os, sys
 import RPi.GPIO as GPIO
 import time
@@ -26,6 +24,9 @@ try:   #For Python 2 and Python 3 support.
     input = raw_input
 except NameError:
     pass
+
+#Change below to True if you want to try out the program without a Dots board.
+noBoard = False
 
 AIRPLANE = [[-3, 1, 2, [1, 0], 'Right Wing'], [-2, 1, 2, [1, 0], 'Right Wing'], [-2, 1, 3, [1, 0], 'Right Wing'],
          [-1, 1, -4, [1, 0], 'Right Tailplane'], [-1, 1, 2, [1, 0], 'Right Wing'], [-1, 1, 3, [1, 0], 'Right Wing'],
@@ -397,7 +398,7 @@ class Lightning(threading.Thread):
 
 
 
-def gpio_setup(pins):
+def gpioSetup(pins):
     """
     Sets up all the GPIO pins as input with pull up resistor mode off.
     This is very important not to have any pin set as pull up as will mess with the ground plane.
@@ -409,12 +410,13 @@ def gpio_setup(pins):
         GPIO.setup(pin, GPIO.IN, GPIO.PUD_OFF)
 
 
-def pin_is_active(pin):
+def pinIsActive(pin):
     """
     Checks if supplied pin is covered in ink. Remember, this is the BCM pin, not the number on the dot to dot!
     Does this by enabling pull up resistor, check the pin, disable pull up resistor and return true if the state == 0.
     """
-    #return fakePinsOn(pin)   #Uncomment this line to use without a real dots board attached
+    if noBoard == True:
+        return fakePinsOn(pin)   #Uncomment this line to use without a real dots board attached
     GPIO.setup(pin, GPIO.IN, GPIO.PUD_UP)
     state = GPIO.input(pin)
     GPIO.setup(pin, GPIO.IN, GPIO.PUD_OFF)
@@ -549,14 +551,7 @@ def readInput(caption, default, timeout=5):
     return s
 
 
-def main():
-    pins = PINS
-    gpio_setup(pins)
-    for i in range(0, len(pins)):
-        print(str(pins[i]) + " " + str(pin_is_active(pins[i])))
-
-
-def test():
+def runSimulation():
     global flightScore, otherPartStatus
     # stuff = [[1, 1, 2, [1, 0]], [2, 1, 0, [1, 0]],  [2, 1, 1, [1, 0]] , [2, 1, 2, [1, 0]] , [2, 1, 3, [1, 0]], [2, 1, 4, [1, 0]], [3, 1, 2, [1, 0]], [4, 1, 2, [1, 0]]]
     # stuff = [[-3, 0, -6, [35, 0]], [-3, 1, 2, [35, 0]], [-2, 1, 2, [35, 0]], [-2, 1, 3, [35, 0]], [-1, 1, -4, [35, 0]], [-1, 1, 2, [35, 0]], [-1, 1, 3, [35, 0]], [-1, 1, 4, [35, 0]], [0, 1, -4, [35, 0]], [0, 1, 2, [35, 0]], [0, 1, 3, [35, 0]], [0, 1, 4, [35, 0]], [1, 0, -3, [35, 15]], [1, 1, -4, [35, 0]], [1, 1, -3, [35, 0]], [1, 1, 2, [35, 0]], [1, 1, 3, [35, 0]], [1, 1, 4, [35, 0]], [2, 1, -4, [35, 0]], [2, 1, -3, [35, 0]], [2, 1, -2, [35, 0]], [2, 1, -1, [35, 0]], [2, 1, 0, [35, 0]], [2, 1, 1, [35, 0]], [2, 1, 2, [35, 0]], [2, 1, 3, [35, 0]], [2, 1, 4, [35, 0]], [2, 1, 5, [35, 0]], [2, 1, 6, [35, 0]], [2, 1, 7, [35, 0]], [2, 1, 8, [35, 0]], [2, 2, -4, [35, 0]], [2, 2, -3, [35, 0]], [2, 2, -2, [20, 0]], [2, 2, -1, [35, 0]], [2, 2, 0, [20, 0]], [2, 2, 1, [35, 0]], [2, 2, 2, [20, 0]], [2, 2, 3, [35, 0]], [2, 2, 4, [20, 0]], [2, 2, 5, [35, 0]], [2, 2, 6, [20, 0]], [2, 2, 7, [35, 0]], [2, 2, 8, [20, 0]], [3, 0, 8, [35, 15]], [3, 1, -4, [35, 0]], [3, 1, -3, [35, 0]], [3, 1, -2, [35, 0]], [3, 1, -1, [35, 0]], [3, 1, 0, [35, 0]], [3, 1, 1, [35, 0]], [3, 1, 2, [35, 0]], [3, 1, 3, [35, 0]], [3, 1, 4, [35, 0]], [3, 1, 5, [35, 0]], [3, 1, 6, [35, 0]], [3, 1, 7, [35, 0]], [3, 1, 8, [35, 0]], [3, 1, 9, [35, 0]], [3, 2, -4, [35, 0]], [3, 2, 9, [20, 0]], [3, 3, -4, [35, 0]], [3, 3, -3, [35, 0]], [3, 3, -2, [35, 0]], [3, 3, -1, [35, 0]], [3, 3, 0, [35, 0]], [3, 3, 1, [35, 0]], [3, 3, 2, [35, 0]], [3, 3, 3, [35, 0]], [3, 3, 4, [35, 0]], [3, 3, 5, [35, 0]], [3, 3, 6, [35, 0]], [3, 3, 7, [35, 0]], [3, 3, 8, [20, 0]], [3, 4, -4, [35, 0]], [4, 1, -4, [35, 0]], [4, 1, -3, [35, 0]], [4, 1, -2, [35, 0]], [4, 1, -1, [35, 0]], [4, 1, 0, [35, 0]], [4, 1, 1, [35, 0]], [4, 1, 2, [35, 0]], [4, 1, 3, [35, 0]], [4, 1, 4, [35, 0]], [4, 1, 5, [35, 0]], [4, 1, 6, [35, 0]], [4, 1, 7, [35, 0]], [4, 1, 8, [35, 0]], [4, 2, -4, [35, 0]], [4, 2, -3, [35, 0]], [4, 2, -2, [20, 0]], [4, 2, -1, [35, 0]], [4, 2, 0, [20, 0]], [4, 2, 1, [35, 0]], [4, 2, 2, [20, 0]], [4, 2, 3, [35, 0]], [4, 2, 4, [20, 0]], [4, 2, 5, [35, 0]], [4, 2, 6, [20, 0]], [4, 2, 7, [35, 0]], [4, 2, 8, [20, 0]], [5, 0, -3, [35, 15]], [5, 1, -4, [35, 0]], [5, 1, -3, [35, 0]], [5, 1, 2, [35, 0]], [5, 1, 3, [35, 0]], [5, 1, 4, [35, 0]], [6, 1, -4, [35, 0]], [6, 1, 2, [35, 0]], [6, 1, 3, [35, 0]], [6, 1, 4, [35, 0]], [7, 1, -4, [35, 0]], [7, 1, 2, [35, 0]], [7, 1, 3, [35, 0]], [7, 1, 4, [35, 0]], [8, 1, 2, [35, 0]], [8, 1, 3, [35, 0]], [9, 1, 2, [35, 0]], [11, 0, 10, [45, 0]], [11, 1, 10, [45, 0]], [11, 2, 10, [45, 0]], [11, 3, 10, [45, 0]], [11, 4, 10, [45, 0]], [11, 5, 10, [45, 0]]]
@@ -668,7 +663,7 @@ def test():
         mc.postToChat("")
         mc.postToChat("Dots board not detected! Did you correctly attach it or forget to join the dots?")
         mc.postToChat(" ")
-        test()
+        runSimulation()
     else:
 
         placeBlocks(demoPlane)
@@ -758,14 +753,14 @@ def getPartsStatus():
     for i in range(0, len(PlanePartMap)):
         activePins = 0
         for pin in range(0, len(PlanePartMap[i][1])):
-            if pin_is_active(PlanePartMap[i][1][pin]):
+            if pinIsActive(PlanePartMap[i][1][pin]):
                 activePins = activePins + 1
         if activePins >= PlanePartMap[i][2]:
             PlanePartStatus[PlanePartMap[i][0]] = True
         else:
             PlanePartStatus[PlanePartMap[i][0]] = False
     for i in range(0, len(OtherPartMap)):
-        if pin_is_active(OtherPartMap[i][1][0]) == True:
+        if pinIsActive(OtherPartMap[i][1][0]) == True:
             OtherPartStatus[OtherPartMap[i][0]] = True
         else:
             OtherPartStatus[OtherPartMap[i][0]] = False
@@ -1012,25 +1007,6 @@ def mapSingleRegion(item):
     else:
         print("Error! With " + str(item))
 
-
-# Mapper system end ------------------------------------------------------------------------------------------------------------------------------------
-
-def testBlockPlace():
-    """
-    Experimental block placer using multithreading
-    """
-    threadList = []
-    for i in range(0, 20):
-        for x in range(0, 100):
-            for y in range(0, 4):
-                for z in range(0, 4):
-                    threadList.append(testThreading(x, y + 30, z, 35, i))
-                    # threadList[len(threadList) -1].daemon = True
-                    threadList[len(threadList) - 1].start()
-        time.sleep(1)
-        print("One done")
-
-
 def resetWorld():
     """
     Reset the build area back to a flat layer of ice and air above.
@@ -1039,11 +1015,18 @@ def resetWorld():
     mc.setBlocks(45, 0, -25, -35, 50, 56, 0)
 
 
-gpio_setup(PINS)
+# Mapper system end ------------------------------------------------------------------------------------------------------------------------------------
 
-while True:
-    test()
-    resetWorld()
-print("Program complete")
+def main():
+    try:
+        gpioSetup(PINS)
+        while True:
+            runSimulation()
+            resetWorld()
+    finally:
+        GPIO.cleanup()
 
-GPIO.cleanup()
+
+
+if __name__ == "__main__":
+    main()
