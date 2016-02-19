@@ -6,7 +6,7 @@ def read(fname):
 
 setup(
     name='rpi-dots-minecraft',
-    version='0.1.1',
+    version='0.1.3',
     install_requires= ['rpi.gpio >= 0.5.5'],
     packages=find_packages(),
     scripts=['scripts/rpi_dots_minecraft'],

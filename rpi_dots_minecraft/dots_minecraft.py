@@ -27,6 +27,7 @@ except NameError:
 
 #Change below to True if you want to try out the program without a Dots board.
 noBoard = False
+enableRocketEasterEgg = True  # Actived when all bar the wings of the plane are drawn.
 
 AIRPLANE = [[-3, 1, 2, [1, 0], 'Right Wing'], [-2, 1, 2, [1, 0], 'Right Wing'], [-2, 1, 3, [1, 0], 'Right Wing'],
          [-1, 1, -4, [1, 0], 'Right Tailplane'], [-1, 1, 2, [1, 0], 'Right Wing'], [-1, 1, 3, [1, 0], 'Right Wing'],
@@ -238,6 +239,9 @@ CLOUDROTATE = [[0, 25, 0, [1, 0]], [0, 25, 1, [1, 0]], [0, 25, 2, [1, 0]], [0, 2
                [-9, 25, 0, [1, 0]], [-9, 25, 1, [1, 0]], [-9, 25, 2, [1, 0]], [-9, 25, 3, [1, 0]], [-9, 25, 4, [1, 0]],
                [-9, 25, 5, [1, 0]], [-9, 26, 1, [1, 0]], [-9, 26, 2, [1, 0]], [-9, 26, 3, [1, 0]], [-9, 26, 4, [1, 0]]]
 
+ROCKET = [[24, 0, -13, [35, 1]], [25, 0, -13, [35, 1]], [28, 0, -13, [35, 1]], [29, 0, -13, [35, 1]], [24, 1, -13, [35, 7]], [25, 1, -13, [35, 7]], [28, 1, -13, [35, 7]], [29, 1, -13, [35, 7]], [24, 2, -13, [42, 0]], [25, 2, -13, [42, 0]], [28, 2, -13, [42, 0]], [29, 2, -13, [42, 0]], [24, 0, -12, [35, 1]], [25, 0, -12, [35, 1]], [28, 0, -12, [35, 1]], [29, 0, -12, [35, 1]], [24, 1, -12, [35, 7]], [25, 1, -12, [35, 7]], [28, 1, -12, [35, 7]], [29, 1, -12, [35, 7]], [24, 2, -12, [42, 0]], [25, 2, -12, [42, 0]], [28, 2, -12, [42, 0]], [29, 2, -12, [42, 0]], [25, 3, -12, [42, 0]], [26, 3, -12, [42, 0]], [27, 3, -12, [42, 0]], [28, 3, -12, [42, 0]], [26, 4, -12, [42, 0]], [27, 4, -12, [42, 0]], [26, 5, -12, [42, 0]], [27, 5, -12, [42, 0]], [26, 6, -12, [42, 0]], [27, 6, -12, [42, 0]], [26, 7, -12, [42, 0]], [27, 7, -12, [42, 0]], [25, 3, -11, [42, 0]], [26, 3, -11, [42, 0]], [27, 3, -11, [42, 0]], [28, 3, -11, [42, 0]], [25, 4, -11, [42, 0]], [28, 4, -11, [42, 0]], [25, 5, -11, [42, 0]], [28, 5, -11, [42, 0]], [25, 6, -11, [42, 0]], [28, 6, -11, [42, 0]], [25, 7, -11, [42, 0]], [28, 7, -11, [42, 0]], [26, 8, -11, [42, 0]], [27, 8, -11, [42, 0]], [26, 9, -11, [35, 1]], [27, 9, -11, [35, 1]], [26, 10, -11, [42, 0]], [27, 10, -11, [42, 0]], [26, 11, -11, [35, 7]], [27, 11, -11, [35, 7]], [26, 12, -11, [35, 7]], [27, 12, -11, [35, 7]], [26, 13, -11, [42, 0]], [27, 13, -11, [42, 0]], [26, 14, -11, [42, 0]], [27, 14, -11, [42, 0]], [26, 15, -11, [42, 0]], [27, 15, -11, [42, 0]], [25, 3, -10, [42, 0]], [26, 3, -10, [42, 0]], [27, 3, -10, [42, 0]], [28, 3, -10, [42, 0]], [25, 4, -10, [42, 0]], [28, 4, -10, [42, 0]], [25, 5, -10, [42, 0]], [28, 5, -10, [42, 0]], [25, 6, -10, [42, 0]], [28, 6, -10, [42, 0]], [25, 7, -10, [42, 0]], [28, 7, -10, [42, 0]], [26, 8, -10, [42, 0]], [27, 8, -10, [42, 0]], [26, 9, -10, [35, 1]], [27, 9, -10, [35, 1]], [26, 10, -10, [42, 0]], [27, 10, -10, [42, 0]], [26, 11, -10, [35, 7]], [27, 11, -10, [35, 7]], [26, 12, -10, [35, 7]], [27, 12, -10, [35, 7]], [26, 13, -10, [42, 0]], [27, 13, -10, [42, 0]], [26, 14, -10, [42, 0]], [27, 14, -10, [42, 0]], [26, 15, -10, [42, 0]], [27, 15, -10, [42, 0]], [24, 0, -9, [35, 1]], [25, 0, -9, [35, 1]], [28, 0, -9, [35, 1]], [29, 0, -9, [35, 1]], [24, 1, -9, [35, 7]], [25, 1, -9, [35, 7]], [28, 1, -9, [35, 7]], [29, 1, -9, [35, 7]], [24, 2, -9, [42, 0]], [25, 2, -9, [42, 0]], [28, 2, -9, [42, 0]], [29, 2, -9, [42, 0]], [25, 3, -9, [42, 0]], [26, 3, -9, [42, 0]], [27, 3, -9, [42, 0]], [28, 3, -9, [42, 0]], [26, 4, -9, [42, 0]], [27, 4, -9, [42, 0]], [26, 5, -9, [42, 0]], [27, 5, -9, [42, 0]], [26, 6, -9, [42, 0]], [27, 6, -9, [42, 0]], [26, 7, -9, [42, 0]], [27, 7, -9, [42, 0]], [24, 0, -8, [35, 1]], [25, 0, -8, [35, 1]], [28, 0, -8, [35, 1]], [29, 0, -8, [35, 1]], [24, 1, -8, [35, 7]], [25, 1, -8, [35, 7]], [28, 1, -8, [35, 7]], [29, 1, -8, [35, 7]], [24, 2, -8, [42, 0]], [25, 2, -8, [42, 0]], [28, 2, -8, [42, 0]], [29, 2, -8, [42, 0]]]
+
+
 #Single lightning part, is then repeated to create a full lightning bolt
 miniLightning = [[0, 0, 0, [41, 0]], [0, 1, 1, [41, 0]], [0, 2, 2, [41, 0]], [0, 3, 3, [41, 0]], [0, 4, 3, [41, 0]],
                  [0, 4, 2, [41, 0]], [0, 4, 1, [41, 0]]]
@@ -254,6 +258,7 @@ planePartStatus = {}
 otherPartStatus = {}
 PINS = list(set(list(range(NUM_PINS))) - set([2, 3]))
 SelectedColours = []
+rocketBottom = [0,0,0]
 
 PlanePartMap = [                #["Part name", [GPIO pins assigned to that part], Number of GPIO pins needed to trigger]
     ["Cockpit", [21, ], 1],
@@ -392,6 +397,49 @@ class Lightning(threading.Thread):
             time.sleep(0.01)
 
 
+class rocketFire(threading.Thread):
+    def __init__(self, offx, offy, offz):
+        global rocketBottom
+        super(rocketFire, self).__init__()
+        self.offx = offx
+        self.offy = offy
+        self.offz = offz
+        self.x = rocketBottom[0] + offx
+        self.y = rocketBottom[1] + offy
+        self.z = rocketBottom[2] + offz
+    def run(self):
+        self.placeFire(self.x, self.y, self.z)
+
+    def placeFire(self, x, y, z):
+        global rocketBottom
+        #fireblocks = [(35, 1), (35, 14)]
+        fireblocks = [ (35, 14)]
+        #fireblocks = [(11, 0)]
+        while rocketBottom[0] != 1000:
+            x = rocketBottom[0] + self.offx
+            y = rocketBottom[1] + self.offy
+            z = rocketBottom[2] + self.offz
+            #rb1 = (random.randint(x-1, x+2), random.randint(y-1, y), random.randint(z-1, z+2))
+            #rb2 = (random.randint(x-1, x+2), random.randint(y-1, y), random.randint(z-1, z+2))
+            #rb3 = (random.randint(x-1, x+2), random.randint(y-1, y), random.randint(z-1, z+2))
+
+            rb1 = (random.randint(x, x+1), random.randint(y-1, y), random.randint(z, z+1))
+            rb2 = (random.randint(x, x+1), random.randint(y-1, y), random.randint(z, z+1))
+            rb3 = (random.randint(x, x+1), random.randint(y-1, y), random.randint(z, z+1))
+
+            rc1 = random.choice(fireblocks)
+            rc2 = random.choice(fireblocks)
+            rc3 = random.choice(fireblocks)
+            mc.setBlock(rb1[0], rb1[1], rb1[2], rc1[0], rc1[1])
+            mc.setBlock(rb2[0], rb2[1], rb2[2], rc2[0], rc2[1])
+            mc.setBlock(rb3[0], rb3[1], rb3[2], rc3[0], rc3[1])
+            #print("Placing fire! " + str(rb1))
+            time.sleep(0.3)
+            mc.setBlock(rb1[0], rb1[1], rb1[2], 0)
+            mc.setBlock(rb2[0], rb2[1], rb2[2], 0)
+            mc.setBlock(rb3[0], rb3[1], rb3[2], 0)
+
+
 
 #---------------------------------------Functions--------------------------------------------
 
@@ -416,7 +464,7 @@ def pinIsActive(pin):
     Does this by enabling pull up resistor, check the pin, disable pull up resistor and return true if the state == 0.
     """
     if noBoard == True:
-        return fakePinsOn(pin)   #Uncomment this line to use without a real dots board attached
+        return fakePinsMid(pin)   #Uncomment this line to use without a real dots board attached
     GPIO.setup(pin, GPIO.IN, GPIO.PUD_UP)
     state = GPIO.input(pin)
     GPIO.setup(pin, GPIO.IN, GPIO.PUD_OFF)
@@ -463,18 +511,18 @@ def fakePinsOff(pin, fullList=False):
 
 def fakePinsMid(pin, fullList=False):
     pins = {
-        0: False,
+        0: True,
         1: True,
         2: True,
         3: True,
         4: True,
-        5: True,
+        5: False,
         6: True,
         7: True,
-        8: False,
+        8: True,
         9: True,
         10: True,
-        11: True,
+        11: False,
         12: True,
         13: True,
         14: True,
@@ -489,8 +537,8 @@ def fakePinsMid(pin, fullList=False):
         23: False,  #
         24: False,  #
         25: True,
-        26: False,
-        27: False
+        26: True,
+        27: True
     }
 
     if fullList:
@@ -655,6 +703,21 @@ def runSimulation():
     updatedStuff = checkParts(AIRPLANE)
     checkColours()
     demoPlane = offset(updatedStuff, -20, 0, 0)
+    if (len(demoPlane) == 93) and (enableRocketEasterEgg == True):
+        mc.postToChat("Easter egg!")
+
+        if OtherPartStatus["Cloud"]:
+            addClouds(-10, 0, -10)
+            #l = Lightning(0, 0, 0, 0, 0)
+            #l.daemon = True
+            #l.start()
+        if OtherPartStatus["Bear"]:
+            b = Babbage(babbage, 0, 0, -6, 0, 0)
+            b.daemon = True
+            b.start()
+
+        runRocket()
+        sys.exit(0)
     #mc.setBlock(-27, 3, 2, 20)  #Create a glass platform for the player to stand on
     #mc.player.setPos(-27, 4, 2) #Teleport the player to that platform
     #waitBlock()
@@ -732,14 +795,14 @@ def waitBlock(message):
             time.sleep(0.5)
 
 
-def addClouds():
+def addClouds(x = 0, y = 0, z = 0):
     """
     Adds the clouds. Only run when the cloud is selected on the dots board.
     """
-    placeBlocks(offset(CLOUDROTATE, 5, 0, 0), [1, 0])
-    placeBlocks(offset(CLOUDROTATE, 3, 2, 16), [1, 0])
-    placeBlocks(offset(CLOUDROTATE, 14, 2, 16), [1, 0])
-    placeBlocks(offset(CLOUD, 1, 0, 24), [1, 0])
+    placeBlocks(offset(CLOUDROTATE, x+5, y+0, z+0), [1, 0])
+    placeBlocks(offset(CLOUDROTATE, x+3, y+2, z+16), [1, 0])
+    placeBlocks(offset(CLOUDROTATE, x+14, y+2, z+16), [1, 0])
+    placeBlocks(offset(CLOUD, x+1, y+0, z+24), [1, 0])
 
 
 def getPartsStatus():
@@ -869,6 +932,53 @@ def movePlane(stuff, distance, fall):
     breakBlocks(coords)
 
 
+
+
+def moveRocket(stuff, distance, fall):
+    global rocketBottom
+    """
+    Easter egg part of the program created to mark the launch of British Astronaut Tim Peake to the International
+    Space Station on 15th December 2015.
+    To activate, fill in the full plane, excluding the wings.
+    """
+    planeCoords = offset(stuff, 0, 11, 0)
+    oldCoords = planeCoords[:]
+    coords = planeCoords[:]
+    breakBlocks(oldCoords)
+    placeBlocks(coords)
+    countdown()
+    for x in range(0, 50):
+        oldCoords = deepcopy(coords)
+        rocketBottom = coords[0]
+        print("Rocket bottom " + str(rocketBottom))
+
+        placeBlocks(coords)  # Standard single thread
+        # placeBlocksThreading(coords)   #Multiple threads
+
+
+        coords = rocketLiftOff(x, coords, 0, 25)
+
+        #for i in range(0, len(coords)):
+        #    coords[i][2] = coords[i][2] + 1
+        time.sleep(PLANEPAUSE)
+        toBreak = [x for x in oldCoords if x not in coords]
+
+        coordsNoData = []
+        for i in range(0, len(coords)):
+            coordsNoData.append(coords[i][:3])
+
+        oldCoordsNoData = []
+        for i in range(0, len(toBreak)):
+            oldCoordsNoData.append(toBreak[i][:3])
+
+        toBreak = [x for x in oldCoordsNoData if x not in coordsNoData]
+
+        breakBlocks(toBreak)
+    breakBlocks(coords)
+    rocketBottom[0] = 1000
+
+
+
 def planeFall(currentForward, coords, startDrop, distance):
     """
     Controls the height of the plane. currentForward is passed in from the movePlane() function as the number of
@@ -878,6 +988,16 @@ def planeFall(currentForward, coords, startDrop, distance):
     if (currentForward < startDrop) == 0:
         for i in range(0, len(coords)):
             coords[i][1] = coords[i][1] - 1
+    return coords
+
+def rocketLiftOff(currentForward, coords, startDrop, distance):
+    """
+    Controls the height of the rocket by simply increasing it by one each time.
+    """
+    global SelectedColour
+    if (currentForward < startDrop) == 0:
+        for i in range(0, len(coords)):
+            coords[i][1] = coords[i][1] +1
     return coords
 
 
@@ -943,6 +1063,60 @@ def createSign():
     time.sleep(6)
     resetWorld()
 
+def countdown():
+    """
+    Easter egg part of the program created to mark the launch of British Astronaut Tim Peake to the International
+    Space Station on 15th December 2015.
+    To activate, fill in the full plane, excluding the wings.
+    """
+    time.sleep(2)
+    mc.postToChat("")
+    mc.postToChat("5")
+    mc.postToChat("")
+    time.sleep(1)
+    mc.postToChat("4")
+    mc.postToChat("")
+    time.sleep(1)
+    mc.postToChat("3")
+    mc.postToChat("")
+    time.sleep(1)
+    mc.postToChat("2")
+    mc.postToChat("")
+    time.sleep(1)
+    mc.postToChat("1")
+    mc.postToChat("")
+    time.sleep(1)
+    mc.postToChat("LIFTOFF!!")
+    mc.postToChat("")
+
+def runRocket():
+    """
+    Easter egg part of the program created to mark the launch of British Astronaut Tim Peake to the International
+    Space Station on 15th December 2015.
+    To activate, fill in the full plane, excluding the wings.
+    """
+    global flightScore
+    rocket = offset(ROCKET, -30, -12, 5)
+    rocketBottom = (10, 10, 10)
+    a = rocketFire(0, -1, 0)
+    a.daemon = True
+    a.start()
+    b = rocketFire(4, -1, 0)
+    b.daemon = True
+    b.start()
+    c = rocketFire(4, -1, 4)
+    c.daemon = True
+    c.start()
+    d = rocketFire(0, -1, 4)
+    d.daemon = True
+    d.start()
+    moveRocket(rocket, 0, 0)
+    resetWorld()
+    flightScore = 24
+    createSign()
+    #time.sleep(10)
+
+
 
 # Mapper system start ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -950,6 +1124,7 @@ def scanBlocks(x1, y1, z1, x2, y2, z2):
     """
     Scans the area between the 2 coordinate sets, converting it into a list. It is then printed to be used.
     """
+    print("Scanning")
     scanList = []
     smallx = min(x1, x2)
     bigx = max(x1, x2)
@@ -1017,6 +1192,7 @@ def resetWorld():
 
 # Mapper system end ------------------------------------------------------------------------------------------------------------------------------------
 
+
 def main():
     try:
         gpioSetup(PINS)
@@ -1030,3 +1206,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
